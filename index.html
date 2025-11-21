@@ -3,143 +3,213 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Skyguard Capital — Disciplined Value Investing</title>
+  <title>Stargate Capital — Disciplined Value Investing</title>
+  
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root{
-      /* USER PALETTE */
-      --bg-page: #F2F2F2;
-      --bg-accent: #EAE4D5;  /* Bone/Beige */
-      --taupe: #B6B09F;      /* Borders/Secondary */
-      --black: #000000;      /* Primary/Text */
-      --white: #FFFFFF;      /* Card Base */
+      /* PREMIUM DARK PALETTE */
+      --bg-page: #050505;      /* Deepest Black */
+      --bg-card: #0F0F0F;      /* Off-Black for cards */
+      --bg-hover: #1A1A1A;     /* Slightly lighter for interactions */
       
-      /* Derived */
-      --text-main: var(--black);
-      --text-muted: rgba(0,0,0,0.6); 
-      --radius: 4px;
+      --accent-gold: #D4AF37;  /* Metallic Gold */
+      --accent-light: #F9E398; /* Shimmer Highlight Color */
+      --accent-muted: #8A7E5F; /* Muted Gold/Taupe */
+      
+      --border: #262626;       /* Subtle borders */
+      
+      --text-main: #FFFFFF;
+      --text-muted: #A3A3A3;
+      
+      --radius: 6px;
       --max-width: 1100px;
       
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color-scheme: light;
+      color-scheme: dark;
     }
 
     *{box-sizing:border-box}
-    body{margin:0; background-color:var(--bg-page); color:var(--text-main); line-height:1.5;}
+    body{margin:0; background-color:var(--bg-page); color:var(--text-main); line-height:1.6; -webkit-font-smoothing: antialiased;}
     
-    .container{max-width:var(--max-width); margin:40px auto; padding:0 24px}
+    .container{max-width:var(--max-width); margin:0 auto; padding:0 24px}
+
+    /* --- SHIMMER ANIMATION --- */
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .text-shimmer {
+      background: linear-gradient(
+        110deg, 
+        var(--accent-gold) 20%, 
+        var(--accent-light) 50%, 
+        var(--accent-gold) 80%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
 
     /* Header */
-    header{display:flex; align-items:center; justify-content:space-between; padding:20px 0; margin-bottom: 30px;}
-    .brand{display:flex; align-items:center; gap:12px}
-    .logo{
-      width:42px; height:42px; 
-      background: var(--black);
-      display:flex; align-items:center; justify-content:center; 
-      color:var(--white); font-weight:700; font-size: 16px;
+    header{
+      display:flex; align-items:center; justify-content:space-between; 
+      padding:24px 0; 
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
     }
-    nav{display:flex; gap:24px; align-items:center}
-    nav a{color:var(--text-muted); text-decoration:none; font-weight:500; font-size: 14px; transition: color 0.2s;}
-    nav a.active, nav a:hover{color:var(--black); text-decoration: underline; text-underline-offset: 4px;}
+    
+    .brand{display:flex; align-items:center; gap:14px; text-decoration: none; color: inherit;}
+    .logo-img{
+      width: 48px; height: 48px;
+      object-fit: cover;
+      border-radius: 50%; 
+      border: 1px solid var(--border);
+    }
+    .brand-text{
+      font-weight:700; color:var(--text-main); font-size: 18px; letter-spacing: -0.01em;
+    }
+    
+    nav{display:flex; gap:32px; align-items:center}
+    nav a{
+      color:var(--text-muted); text-decoration:none; font-weight:500; font-size: 14px; 
+      transition: all 0.2s; position: relative;
+    }
+    nav a:hover{color:var(--text-main);}
+    nav a.active{color:var(--accent-gold);}
     
     .cta{
-      background:var(--black); color:var(--white); 
-      padding:12px 24px; border-radius:var(--radius); 
-      text-decoration:none; font-weight:500; font-size: 14px; 
-      transition: opacity 0.2s; border: 1px solid var(--black);
+      /* Updated CTA to have a subtle shimmer */
+      background: linear-gradient(110deg, var(--accent-gold) 20%, #E5C560 50%, var(--accent-gold) 80%);
+      background-size: 200% auto;
+      animation: shimmer 6s linear infinite;
+      color: #000; 
+      padding:10px 20px; border-radius:var(--radius); 
+      text-decoration:none; font-weight:600; font-size: 14px; 
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
     }
-    .cta:hover{opacity: 0.8;}
+    .cta:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+    }
 
-    /* Cards & Layout */
-    .hero{display:grid; grid-template-columns:1fr 360px; gap:24px; align-items:start;}
+    /* Typography & Layout */
+    h1{margin:0; font-size:42px; letter-spacing: -0.03em; color:var(--text-main); font-weight: 600; line-height: 1.2;}
+    h2{font-size: 22px; font-weight: 600; margin-top: 0; padding-bottom: 16px; border-bottom: 1px solid var(--border); color: var(--text-main);}
+    h3{font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--text-main);}
     
-    .hero-card{
-      background:var(--bg-accent); 
-      border-radius:var(--radius); 
-      padding:48px; 
-      border: 1px solid var(--taupe);
+    p.lead{
+      margin:24px 0 36px 0; 
+      color:var(--text-muted); 
+      font-size: 18px; font-weight: 300; line-height: 1.6;
     }
     
+    section{margin:60px 0}
+    .hero{display:grid; grid-template-columns:1.4fr 1fr; gap:32px; align-items:stretch; margin-top: 40px;}
+    
+    /* Cards */
     .card{
-      background:var(--white); 
-      padding:32px; 
+      background:var(--bg-card); 
+      padding:40px; 
       border-radius:var(--radius); 
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      transition: border-color 0.3s;
     }
+    .card:hover{border-color: #333;}
 
-    h1{margin:0; font-size:36px; letter-spacing: -0.02em; color:var(--black); font-weight: 600;}
-    p.lead{margin:20px 0 32px 0; color:var(--text-main); font-size: 18px; font-weight: 300; line-height: 1.6;}
+    .hero-card{
+      background: radial-gradient(circle at top right, #1a1a1a 0%, var(--bg-card) 60%);
+      border: 1px solid var(--border);
+    }
     
-    .stats-row{display:flex; gap:32px; margin-top:32px; padding-top: 32px; border-top: 1px solid var(--taupe);}
-    .aum .value{font-size:24px; font-weight:600; color:var(--black); font-family: monospace;}
-    .meta{font-size:11px; text-transform: uppercase; letter-spacing: 1px; color:var(--text-muted); font-weight: 600; margin-bottom: 4px;}
-
-    /* Section Layouts */
-    section{margin:32px 0}
-    .grid-2{display:grid; grid-template-columns:1fr 360px; gap:24px}
-    
-    h2{font-size: 20px; font-weight: 600; margin-top: 0; padding-bottom: 12px; border-bottom: 1px solid var(--bg-page);}
-    h3{font-size: 16px; font-weight: 600; margin: 0 0 8px 0;}
+    /* Stats */
+    .stats-row{display:flex; gap:40px; margin-top:40px; padding-top: 32px; border-top: 1px solid var(--border);}
+    .value{font-size:20px; font-weight:500; color:var(--accent-gold); font-family: 'Inter', monospace;}
+    .meta{font-size:11px; text-transform: uppercase; letter-spacing: 1.5px; color:var(--text-muted); font-weight: 600; margin-bottom: 8px;}
 
     /* Tickers */
-    .tickers{display:flex; flex-wrap:wrap; gap:8px; margin-top: 20px;}
+    .tickers{display:flex; flex-wrap:wrap; gap:10px; margin-top: 24px;}
     .ticker{
-      background:transparent; 
-      border: 1px solid var(--taupe); 
-      padding:8px 12px; 
-      font-weight:500; font-size: 13px; color:var(--black);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); 
+      padding:8px 14px; 
+      font-weight:500; font-size: 13px; color:var(--text-muted);
+      border-radius: 4px;
+      transition: all 0.2s;
     }
+    .ticker:hover{border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(212, 175, 55, 0.05);}
 
     /* Manager */
-    .manager{display:flex; gap:20px; align-items:center}
+    .manager{display:flex; gap:24px; align-items:center}
     .avatar{
-      width:72px; height:72px; 
-      background:var(--bg-page); 
+      width:80px; height:80px; 
+      background:var(--bg-hover); 
       display:flex; align-items:center; justify-content:center; 
-      font-weight:600; color:var(--black); font-size:20px; 
-      border: 1px solid var(--taupe);
+      font-weight:600; color:var(--accent-gold); font-size:24px; 
+      border-radius: 50%;
+      border: 1px solid var(--border);
     }
 
     /* Forms */
-    form label{display:block; font-size:12px; font-weight: 600; color:var(--black); margin-bottom:8px;}
+    form label{display:block; font-size:12px; font-weight: 600; color:var(--text-muted); margin-bottom:8px;}
     input, textarea{
-      width:100%; padding:12px; border-radius:0; 
-      border:1px solid var(--taupe); background:var(--white); 
+      width:100%; padding:14px; border-radius: var(--radius); 
+      border:1px solid var(--border); background: #000; 
+      color: var(--text-main);
       font-family: inherit; font-size: 14px; outline: none;
+      transition: border-color 0.2s;
     }
-    input:focus, textarea:focus{border-color: var(--black); background: var(--bg-page);}
-    .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    input:focus, textarea:focus{border-color: var(--accent-gold);}
+    
+    .btn-submit{
+        width:100%; padding: 14px; 
+        background: var(--text-main); 
+        color: var(--bg-page); 
+        border: none; font-weight: 600; 
+        cursor: pointer; border-radius: var(--radius);
+        transition: opacity 0.2s;
+    }
+    .btn-submit:hover{opacity: 0.9;}
 
-    /* Footer / Tenets */
+    /* Footer */
     footer{
-      padding:40px 0; border-top: 1px solid var(--taupe); margin-top: 60px; 
+      padding:60px 0; border-top: 1px solid var(--border); margin-top: 80px; 
       color:var(--text-muted); font-size:13px;
     }
-    .tenets{display:flex; gap:30px; margin-bottom: 30px; flex-wrap: wrap;}
-    .tenet{font-size: 14px; font-weight: 500; color: var(--black); display:flex; align-items:center; gap:8px;}
-    .tenet::before{content:''; width:6px; height:6px; background:var(--taupe); border-radius:50%;}
+    .tenets{display:flex; gap:40px; margin-bottom: 40px; flex-wrap: wrap;}
+    .tenet{font-size: 14px; font-weight: 500; color: var(--text-main); display:flex; align-items:center; gap:10px;}
+    .tenet::before{content:''; width:4px; height:4px; background:var(--accent-gold); border-radius:50%; box-shadow: 0 0 8px var(--accent-gold);}
+
+    /* Utility */
+    .grid-2{display:grid; grid-template-columns:1fr 400px; gap:32px}
 
     /* Responsive */
     @media (max-width:900px){
       .hero, .grid-2{grid-template-columns:1fr}
       nav{display:none} 
-      .container{padding:20px}
-      .form-row{grid-template-columns:1fr}
-      .hero-card{padding: 24px;}
+      .container{padding:0 20px}
+      .hero-card{padding: 32px;}
+      h1{font-size: 32px;}
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div class="brand">
-        <div class="logo">SG</div>
-        <div>
-          <div style="font-weight:700; color:var(--black); font-size: 16px;">Skyguard Capital</div>
-        </div>
-      </div>
+      <a href="#" class="brand">
+        <img src="https://placehold.co/100x100/0F0F0F/D4AF37?text=S" alt="Stargate Capital Logo" class="logo-img" />
+        <div class="brand-text">Stargate Capital</div>
+      </a>
       <nav>
         <a href="#home" class="active">Philosophy</a>
         <a href="#universe">Sectors</a>
@@ -152,19 +222,19 @@
 
     <main id="home">
       <div class="hero">
-        <div class="hero-card">
-          <h1>Disciplined risk. <br>Independent conviction.</h1>
+        <div class="card hero-card">
+          <h1>Disciplined risk. <br><span class="text-shimmer">Independent conviction.</span></h1>
           <p class="lead">We believe the most attractive opportunities arise when markets are dominated by fear—moments when rational analysis reveals mispriced, high-quality businesses.</p>
 
           <div class="stats-row">
             <div class="aum">
-              <div class="meta">Location</div>
-              <div class="value" style="font-size:16px; font-family: 'Inter';">Delhi, India</div>
+              <div class="meta">Headquarters</div>
+              <div class="value" style="color: var(--text-main);">New Delhi, India</div>
             </div>
-            <div style="flex:1; padding-left: 24px; border-left: 1px solid var(--taupe);">
+            <div style="flex:1; padding-left: 32px; border-left: 1px solid var(--border);">
               <div class="meta">Our Mission</div>
-              <div style="margin-top:4px; font-size: 14px; line-height: 1.4;">
-                To generate risk-adjusted returns by acquiring fundamentally strong companies with long-term asymmetry.
+              <div style="margin-top:4px; font-size: 14px; line-height: 1.5; color: var(--text-muted);">
+                To generate superior risk-adjusted returns by acquiring fundamentally strong companies with long-term asymmetry.
               </div>
             </div>
           </div>
@@ -172,18 +242,20 @@
 
         <aside>
           <div class="card" style="height: 100%; display:flex; flex-direction:column; justify-content:center;">
-            <div class="meta" style="margin-bottom:8px;">Selection Criteria</div>
-            <div style="font-weight:600; font-size: 18px; margin-bottom: 16px;">We invest exclusively in winners.</div>
+            <div class="meta" style="margin-bottom:12px; color: var(--accent-gold);">Selection Criteria</div>
+            <div style="font-weight:600; font-size: 20px; margin-bottom: 24px; color: var(--text-main);">We invest exclusively in winners.</div>
             
-            <ul style="padding-left: 20px; margin:0; font-size: 14px; color: var(--text-muted); line-height: 1.8;">
-               <li>Robust balance sheets</li>
-               <li>Consistent free cash flows</li>
-               <li>Durable competitive moats</li>
-               <li>Prudent capital allocation</li>
+            <ul style="padding-left: 0; list-style: none; margin:0; font-size: 15px; color: var(--text-muted); line-height: 2;">
+               <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--accent-gold)">✓</span> Robust balance sheets</li>
+               <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--accent-gold)">✓</span> Consistent free cash flows</li>
+               <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--accent-gold)">✓</span> Durable competitive moats</li>
+               <li style="display:flex; align-items:center; gap:10px;"><span style="color:var(--accent-gold)">✓</span> Prudent capital allocation</li>
             </ul>
             
-            <div style="margin-top:auto; padding-top:20px; border-top: 1px solid var(--bg-page);">
-              <a href="#universe" style="color:var(--black); font-size: 13px; font-weight:600; text-decoration: none;">View Focus Sectors &rarr;</a>
+            <div style="margin-top:auto; padding-top:24px; border-top: 1px solid var(--border);">
+              <a href="#universe" style="color:var(--text-main); font-size: 13px; font-weight:600; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                View Focus Sectors <span style="color: var(--accent-gold);">→</span>
+              </a>
             </div>
           </div>
         </aside>
@@ -191,20 +263,20 @@
 
       <section id="universe">
         <div class="card">
-          <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 40px;">
+          <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 60px;">
              <div>
                 <h2>Sector Specialization</h2>
-                <p style="font-size: 15px; color:var(--text-main); line-height: 1.6;">
+                <p style="font-size: 16px; color:var(--text-muted); line-height: 1.7;">
                    Operating from one of India’s key financial hubs, we maintain a sharp focus on sectors central to the country’s structural evolution.
                 </p>
-                <p style="font-size: 14px; color:var(--text-muted);">
+                <p style="font-size: 15px; color:var(--text-muted); margin-top: 16px;">
                    Through a blend of top-down macro insights and bottom-up fundamental research, we identify companies positioned to benefit from urbanization, policy tailwinds, and sustained demand cycles.
                 </p>
              </div>
              <div>
-                <div class="meta">Core Pillars</div>
+                <div class="meta" style="color: var(--accent-gold);">Core Pillars</div>
                 <h3>Real Estate &amp; Infrastructure</h3>
-                <p style="font-size: 13px; color:var(--text-muted);">
+                <p style="font-size: 14px; color:var(--text-muted);">
                   The two pillars of India’s long-term growth cycle.
                 </p>
                 <div class="tickers">
@@ -223,7 +295,11 @@
 
       <section id="market">
         <div class="card">
-            <h2 style="margin-bottom: 20px;">Market Benchmark</h2>
+            <h2 style="margin-bottom: 24px; border-bottom: none; display:flex; align-items:center; justify-content:space-between;">
+                Market Benchmark
+                <span style="font-size:12px; font-weight:400; color:var(--text-muted); padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px;">LIVE</span>
+            </h2>
+            
             <div class="tradingview-widget-container">
               <div id="tradingview_nifty"></div>
             </div>
@@ -232,22 +308,23 @@
             new TradingView.widget({
               "width": "100%",
               "height": 500,
-              "symbol": "INDEX:NSEI",
+              "symbol": "BSE:DLF",
               "interval": "D",
               "timezone": "Asia/Kolkata",
-              "theme": "light",
+              "theme": "dark",
               "style": "1",
               "locale": "en",
-              "toolbar_bg": "#F2F2F2", 
+              "toolbar_bg": "#f1f3f6",
               "enable_publishing": false,
               "hide_top_toolbar": false,
-              "allow_symbol_change": true, 
-              "hide_legend": false,
+              "allow_symbol_change": true,
+              "backgroundColor": "rgba(15, 15, 15, 1)",
+              "gridColor": "rgba(40, 40, 40, 0.5)",
               "save_image": false,
               "container_id": "tradingview_nifty"
             });
             </script>
-            <div style="margin-top:20px; font-size:12px; color:var(--text-muted); border-top: 1px solid var(--bg-page); padding-top: 10px;">
+            <div style="margin-top:20px; font-size:12px; color:var(--text-muted); border-top: 1px solid var(--border); padding-top: 12px;">
               *Interactive Chart. Use the search bar inside the chart to view other assets.
            </div>
         </div>
@@ -261,21 +338,21 @@
               <div class="avatar">AG</div>
               <div>
                 <h3 style="margin:0; font-size: 18px;">Ansh Gupta</h3>
-                <div style="font-size:13px; color:var(--text-muted); margin: 4px 0 8px 0;">Portfolio Manager</div>
-                <p style="font-size: 14px; margin:0;">Focused on identifying secular growth themes. Ansh executes high-conviction positions with a long-term orientation, unaffected by temporary market noise.</p>
+                <div style="font-size:13px; color:var(--accent-gold); margin: 4px 0 8px 0; font-weight: 600; letter-spacing: 0.5px;">PORTFOLIO MANAGER</div>
+                <p style="font-size: 14px; margin:0; color: var(--text-muted);">Focused on identifying secular growth themes. Ansh executes high-conviction positions with a long-term orientation, unaffected by temporary market noise.</p>
               </div>
             </div>
           </div>
 
-          <div class="card" style="background: var(--black); color: var(--white);">
-            <h3 style="margin-top:0; font-size: 16px; color: var(--white);">Request Access</h3>
-            <p style="font-size:13px; opacity: 0.7; margin-bottom: 16px;">We allocate capital prudently. Join us.</p>
+          <div class="card" id="contact" style="background: linear-gradient(180deg, #1a1a1a 0%, #0F0F0F 100%); border: 1px solid var(--border);">
+            <h3 style="margin-top:0; font-size: 18px;">Request Access</h3>
+            <p style="font-size:13px; color: var(--text-muted); margin-bottom: 20px;">Capital allocation is limited. Inquire for details.</p>
             <form id="contactForm" onsubmit="handleContact(event)">
-              <div style="margin-bottom:12px;">
-                <input id="email" name="email" type="email" placeholder="Enter your email" style="background: transparent; border: 1px solid #555; color: white;" required />
+              <div style="margin-bottom:16px;">
+                <input id="email" name="email" type="email" placeholder="Enter your corporate email" required />
               </div>
-              <button type="submit" style="width:100%; padding: 12px; background: var(--bg-accent); color: var(--black); border: none; font-weight: 600; cursor: pointer;">Get in touch</button>
-              <div id="formStatus" style="margin-top:10px; font-size:12px; color: #888;"></div>
+              <button type="submit" class="btn-submit">Get in touch</button>
+              <div id="formStatus" style="margin-top:12px; font-size:12px; color: var(--text-muted); text-align: center;"></div>
             </form>
           </div>
         </div>
@@ -290,9 +367,12 @@
          <div class="tenet">Act Decisively</div>
          <div class="tenet">Compound Patiently</div>
       </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.1);">
-        <div style="font-weight: 600; color: var(--black);">Skyguard Capital</div>
-        <div>Based in Delhi, India</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding-top: 32px; border-top: 1px solid var(--border);">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="https://placehold.co/100x100/0F0F0F/D4AF37?text=S" style="width: 24px; height: 24px; border-radius: 50%; opacity: 0.8;" alt="small logo">
+            <div style="font-weight: 600; color: var(--text-main);">Stargate Capital</div>
+        </div>
+        <div>Based in New Delhi, India</div>
         <div>© 2025</div>
       </div>
     </footer>
@@ -300,9 +380,11 @@
 
   <script>
     // Navigation active state
-    document.querySelectorAll('header nav a').forEach(a=>{
+    const navLinks = document.querySelectorAll('header nav a');
+    
+    navLinks.forEach(a=>{
       a.addEventListener('click', ()=>{
-        document.querySelectorAll('header nav a').forEach(x=>x.classList.remove('active'));
+        navLinks.forEach(x=>x.classList.remove('active'));
         a.classList.add('active');
       })
     })
@@ -315,13 +397,16 @@
       if(!email){ return; }
       
       const subject = encodeURIComponent('Request Access: ' + email);
-      const mailto = `mailto:hello@skyguard.capital?subject=${subject}`;
+      const mailto = `mailto:hello@stargate.capital?subject=${subject}`;
       
-      status.textContent = 'Redirecting to email...';
+      status.textContent = 'Redirecting to email client...';
+      status.style.color = "var(--accent-gold)";
+      
       setTimeout(()=>{
         window.location.href = mailto;
-        status.textContent = 'Check your email client.';
-      },500);
+        status.textContent = 'Please check your email application.';
+        status.style.color = "var(--text-muted)";
+      },800);
     }
   </script>
 </body>
