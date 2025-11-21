@@ -69,12 +69,13 @@
     }
     
     .brand{display:flex; align-items:center; gap:14px; text-decoration: none; color: inherit;}
+    
     .logo-img{
-      width: 48px; height: 48px;
-      object-fit: cover;
-      border-radius: 50%; 
-      border: 1px solid var(--border);
+      width: 54px; height: 54px; 
+      object-fit: contain;
+      border-radius: 50%;
     }
+
     .brand-text{
       font-weight:700; color:var(--text-main); font-size: 18px; letter-spacing: -0.01em;
     }
@@ -88,7 +89,6 @@
     nav a.active{color:var(--accent-gold);}
     
     .cta{
-      /* Updated CTA to have a subtle shimmer */
       background: linear-gradient(110deg, var(--accent-gold) 20%, #E5C560 50%, var(--accent-gold) 80%);
       background-size: 200% auto;
       animation: shimmer 6s linear infinite;
@@ -207,7 +207,12 @@
   <div class="container">
     <header>
       <a href="#" class="brand">
-        <img src="https://placehold.co/100x100/0F0F0F/D4AF37?text=S" alt="Stargate Capital Logo" class="logo-img" />
+        <img 
+          src="stargate capital logo.jpg" 
+          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIHN0cm9rZT0iIzI2MjYyNiIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSIjMEYwRjBGIi8+CiAgPHRleHQgeD0iNTAiIHk9IjY1IiBmb250LWZhbWlseT0ic2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiNENEFGMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIiBzdHlsZT0ibGV0dGVyLXNwYWNpbmc6LTJweCI+U0M8L3RleHQ+CiAgPGVsbGlwc2UgY3g9IjUwIiBjeT0iNTAiIHJ4PSI0MiIgcnk9IjE1IiBzdHJva2U9IiNENEFGMzciIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgNTAgNTApIi8+Cjwvc3ZnPg==';"
+          alt="Stargate Capital Logo" 
+          class="logo-img" 
+        />
         <div class="brand-text">Stargate Capital</div>
       </a>
       <nav>
@@ -369,7 +374,12 @@
       </div>
       <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding-top: 32px; border-top: 1px solid var(--border);">
         <div style="display:flex; align-items:center; gap:10px;">
-            <img src="https://placehold.co/100x100/0F0F0F/D4AF37?text=S" style="width: 24px; height: 24px; border-radius: 50%; opacity: 0.8;" alt="small logo">
+            <img 
+              src="stargate capital logo.jpg" 
+              onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIHN0cm9rZT0iIzI2MjYyNiIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSIjMEYwRjBGIi8+CiAgPHRleHQgeD0iNTAiIHk9IjY1IiBmb250LWZhbWlseT0ic2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiNENEFGMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIiBzdHlsZT0ibGV0dGVyLXNwYWNpbmc6LTJweCI+U0M8L3RleHQ+CiAgPGVsbGlwc2UgY3g9IjUwIiBjeT0iNTAiIHJ4PSI0MiIgcnk9IjE1IiBzdHJva2U9IiNENEFGMzciIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgNTAgNTApIi8+Cjwvc3ZnPg==';"
+              style="width: 24px; height: 24px; border-radius: 50%; opacity: 0.8;" 
+              alt="small logo"
+            >
             <div style="font-weight: 600; color: var(--text-main);">Stargate Capital</div>
         </div>
         <div>Based in New Delhi, India</div>
