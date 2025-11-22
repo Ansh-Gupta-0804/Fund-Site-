@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research — Stargate Capital</title>
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{
+      /* PREMIUM DARK PALETTE */
+      --bg-page: #050505;
+      --bg-card: #0F0F0F;
+      --bg-hover: #1A1A1A;
+      
+      --accent-gold: #D4AF37;
+      --accent-light: #F9E398;
+      --text-main: #FFFFFF;
+      --text-muted: #A3A3A3;
+      --text-green: #4E9F3D;
+      
+      --border: #262626;
+      --radius: 6px;
+      --max-width: 1200px; /* Increased slightly for 4 columns */
+      
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color-scheme: dark;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0; background-color:var(--bg-page); color:var(--text-main); line-height:1.6; -webkit-font-smoothing: antialiased;}
+    a { text-decoration: none; color: inherit; transition: 0.2s; }
+    
+    .container{max-width:var(--max-width); margin:0 auto; padding:0 24px; min-height: 100vh; display: flex; flex-direction: column;}
+
+    /* HEADER */
+    header{
+      display:flex; align-items:center; justify-content:space-between; 
+      padding:24px 0; 
+      border-bottom: 1px solid var(--border);
+    }
+    .brand{display:flex; align-items:center; gap:14px; font-weight:700; font-size: 18px;}
+    .logo-img{width: 54px; height: 54px; border-radius: 50%; object-fit: contain;}
+    
+    nav{display:flex; gap:32px; align-items:center}
+    nav a{ color:var(--text-muted); font-weight:500; font-size: 14px; }
+    nav a:hover{color:var(--text-main);}
+    nav a.active{color:var(--accent-gold);}
+
+    /* PAGE TITLE & FILTER */
+    .page-header {
+        padding: 40px 0;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 40px;
+        display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;
+    }
+    .header-content h1 { font-size: 32px; margin: 0 0 8px 0; font-weight: 600; color: var(--text-main); }
+    .header-content .subtitle { color: var(--text-muted); font-size: 15px; font-weight: 300; max-width: 600px; }
+
+    /* FILTER DROPDOWN */
+    .filter-group { display: flex; align-items: center; gap: 12px; }
+    .filter-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+    select {
+        background: var(--bg-card); color: var(--text-main);
+        border: 1px solid var(--border); padding: 8px 12px;
+        border-radius: 4px; font-family: inherit; font-size: 13px; cursor: pointer;
+        outline: none;
+    }
+    select:focus { border-color: var(--accent-gold); }
+
+    /* GRID LAYOUT (4 Columns) */
+    .reports-grid {
+        display: grid;
+        /* Fits 4 cards on wide screens (approx 250px each) */
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+    }
+
+    /* REPORT CARD */
+    .report-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px; /* Slightly smaller padding for compact look */
+        transition: transform 0.2s, border-color 0.2s;
+        display: flex; flex-direction: column;
+        height: 100%;
+        position: relative;
+    }
+    .report-card:hover {
+        border-color: var(--accent-gold);
+        transform: translateY(-4px);
+    }
+
+    /* Header with Logo & Buy Tag */
+    .card-header { 
+        display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; 
+    }
+    .ticker-group { display: flex; align-items: center; gap: 10px; }
+    .company-logo {
+        width: 36px; height: 36px; border-radius: 50%; background: #FFF; padding: 2px; object-fit: contain;
+        border: 1px solid var(--border);
+    }
+    .ticker-badge { font-size: 10px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; }
+
+    .rating-badge {
+        color: var(--bg-page); background: var(--accent-gold);
+        font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
+    }
+
+    /* Title & Tags */
+    h2 { margin: 0 0 8px 0; font-size: 18px; font-weight: 600; }
+    
+    .meta-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag {
+        font-size: 10px; padding: 3px 6px; border-radius: 3px;
+        background: var(--bg-hover); color: var(--text-muted); border: 1px solid var(--border);
+    }
+    .tag.highlight { border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(212, 175, 55, 0.05); }
+
+    /* Metrics */
+    .metrics-grid {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 12px; padding: 12px 0;
+        border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        margin-bottom: 16px;
+    }
+    .metric-item { display: flex; flex-direction: column; gap: 2px; }
+    .metric-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .metric-value { font-size: 14px; font-weight: 500; font-family: 'Inter', monospace; color: var(--text-main); }
+    .highlight-green { color: var(--text-green); }
+
+    /* Thesis Preview */
+    .thesis-preview {
+        font-size: 13px; line-height: 1.5; color: var(--text-muted); margin-bottom: 20px; flex-grow: 1;
+        display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    /* Download Button */
+    .btn-download {
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        width: 100%; padding: 10px;
+        background: transparent; border: 1px solid var(--border);
+        color: var(--text-main); font-size: 12px; font-weight: 500;
+        border-radius: var(--radius); transition: 0.2s;
+    }
+    .btn-download:hover { background: var(--bg-hover); border-color: var(--text-muted); }
+
+    /* Footer */
+    footer{
+      padding: 40px 0; margin-top: auto; 
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    @media (max-width: 768px) {
+        nav { display: none; }
+        .reports-grid { grid-template-columns: 1fr; } /* Stack on mobile */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <header>
+      <a href="index.html" class="brand">
+        <img 
+          src="stargate capital logo.jpg" 
+          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIHN0cm9rZT0iIzI2MjYyNiIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSIjMEYwRjBGIi8+CiAgPHRleHQgeD0iNTAiIHk9IjY1IiBmb250LWZhbWlseT0ic2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiNENEFGMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIiBzdHlsZT0ibGV0dGVyLXNwYWNpbmc6LTJweCI+U0M8L3RleHQ+CiAgPGVsbGlwc2UgY3g9IjUwIiBjeT0iNTAiIHJ4PSI0MiIgcnk9IjE1IiBzdHJva2U9IiNENEFGMzciIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgNTAgNTApIi8+Cjwvc3ZnPg==';"
+          alt="Stargate Capital Logo" 
+          class="logo-img" 
+        />
+        <div class="brand-text">Stargate Capital</div>
+      </a>
+      <nav>
+        <a href="index.html">Philosophy</a>
+        <a href="index.html#universe">Sectors</a>
+        <a href="index.html#market">Market</a>
+        <a href="research.html" class="active">Research</a>
+        <a href="holdings.html">Holdings</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#manager">Team</a>
+      </nav>
+    </header>
+
+    <div class="page-header">
+        <div class="header-content">
+            <h1>Institutional Research</h1>
+            <div class="subtitle">Our research division produces institutional-grade insights on companies held across our long and short books. Every report reflects disciplined fundamental work, deep sectoral understanding, and rigorous valuation frameworks designed for asymmetric positioning.
+We offer transparent, independently authored research that captures our thesis development, risk adjustments, and conviction shifts across both sides of the portfolio.</div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">Filter:</span>
+            <select id="yearFilter" onchange="filterReports()">
+                <option value="all">All Years</option>
+                <option value="FY26">FY26</option>
+                <option value="FY25">FY25</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="reports-grid" id="gridContainer">
+        
+        <div class="report-card" data-year="FY26">
+            <div class="card-header">
+                <div class="ticker-group">
+                    <img src="https://logo.clearbit.com/jsw.in" class="company-logo" alt="JSW">
+                    <span class="ticker-badge">JSWENERGY</span>
+                </div>
+                <span class="rating-badge">BUY</span>
+            </div>
+            <h2>JSW Energy Ltd</h2>
+            
+            <div class="meta-tags">
+                <span class="tag">Aug 03, 2025</span>
+                <span class="tag">Q2 FY26</span>
+                <span class="tag highlight">Post-Q1 Results</span>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-label">Target</span>
+                    <span class="metric-value" style="color: var(--accent-gold);">₹624.40</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Upside</span>
+                    <span class="metric-value highlight-green">+22%</span>
+                </div>
+            </div>
+
+            <p class="thesis-preview">
+                <strong>Upgrade Note:</strong> Q1FY26 confirms earnings inflection. Successful integration of KSK Mahanadi & O2 Power assets drives immediate EBITDA growth. Shift from "Capex" to "Earnings" story.
+            </p>
+
+            <a href="reports/jsw-energy-aug-2025.pdf" target="_blank" class="btn-download">
+                <span>Download PDF</span>
+                <span>↓</span>
+            </a>
+        </div>
+
+        <div class="report-card" data-year="FY26">
+            <div class="card-header">
+                <div class="ticker-group">
+                    <img src="https://logo.clearbit.com/jsw.in" class="company-logo" alt="JSW">
+                    <span class="ticker-badge">JSWENERGY</span>
+                </div>
+                <span class="rating-badge">BUY</span>
+            </div>
+            <h2>JSW Energy Ltd</h2>
+            
+            <div class="meta-tags">
+                <span class="tag">July 12, 2025</span>
+                <span class="tag">Q2 FY26</span>
+                <span class="tag highlight">Initiation / Pre-Q1</span>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-label">Target</span>
+                    <span class="metric-value" style="color: var(--accent-gold);">₹624.40</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Upside</span>
+                    <span class="metric-value highlight-green">+19%</span>
+                </div>
+            </div>
+
+            <p class="thesis-preview">
+                <strong>Initiation:</strong> Confluence of technical breakout and 30GW capacity roadmap. High PPA visibility mitigates volatility. Ideal entry point following correction from ATH.
+            </p>
+
+            <a href="reports/jsw-energy-july-2025.pdf" target="_blank" class="btn-download">
+                <span>Download PDF</span>
+                <span>↓</span>
+            </a>
+        </div>
+
+        </div>
+
+    <footer>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-weight: 600; color: var(--text-main);">Stargate Capital</div>
+        </div>
+        <div>© 2025 Stargate Capital. All rights reserved.</div>
+    </footer>
+
+  </div>
+
+  <script>
+    function filterReports() {
+        const selectedYear = document.getElementById('yearFilter').value;
+        const cards = document.querySelectorAll('.report-card');
+        
+        cards.forEach(card => {
+            const cardYear = card.getAttribute('data-year');
+            if (selectedYear === 'all' || cardYear === selectedYear) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+  </script>
+</body>
+</html>

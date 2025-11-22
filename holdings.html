@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Holdings — Stargate Capital</title>
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  
+  <style>
+    :root{
+      /* PREMIUM DARK PALETTE */
+      --bg-page: #050505;
+      --bg-card: #0F0F0F;
+      --bg-hover: #1A1A1A;
+      
+      --accent-gold: #D4AF37;
+      --accent-light: #F9E398;
+      --text-main: #FFFFFF;
+      --text-muted: #A3A3A3;
+      
+      --border: #262626;
+      --radius: 6px;
+      --max-width: 1100px;
+      
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color-scheme: dark;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0; background-color:var(--bg-page); color:var(--text-main); line-height:1.6; -webkit-font-smoothing: antialiased;}
+    a { text-decoration: none; color: inherit; transition: 0.2s; }
+    
+    .container{max-width:var(--max-width); margin:0 auto; padding:0 24px; min-height: 100vh; display: flex; flex-direction: column;}
+
+    /* HEADER */
+    header{
+      display:flex; align-items:center; justify-content:space-between; 
+      padding:24px 0; 
+      border-bottom: 1px solid var(--border);
+    }
+    .brand{display:flex; align-items:center; gap:14px; font-weight:700; font-size: 18px;}
+    .logo-img{width: 54px; height: 54px; border-radius: 50%; object-fit: contain;}
+    
+    nav{display:flex; gap:32px; align-items:center}
+    nav a{ color:var(--text-muted); font-weight:500; font-size: 14px; }
+    nav a:hover{color:var(--text-main);}
+    nav a.active{color:var(--accent-gold);}
+
+    /* PAGE CONTENT */
+    .page-header {
+        padding: 60px 0 40px 0;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 40px;
+    }
+    h1 { font-size: 36px; margin: 0 0 10px 0; font-weight: 600; color: var(--text-main); }
+    .subtitle { color: var(--text-muted); font-size: 16px; font-weight: 300; max-width: 600px; }
+
+    /* DASHBOARD */
+    .dashboard-stats {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 40px;
+    }
+    .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        padding: 24px; border-radius: var(--radius);
+    }
+    .stat-label { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .stat-value { font-size: 24px; font-weight: 600; color: var(--accent-gold); font-family: 'Inter', monospace; }
+
+    /* TABLE */
+    .table-container {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    
+    th {
+        background: var(--bg-hover);
+        color: var(--text-muted);
+        font-weight: 600;
+        text-align: left;
+        padding: 16px 24px;
+        font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    
+    td {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-main);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .company-cell { display: flex; align-items: center; gap: 16px; }
+    .company-logo { 
+        width: 32px; height: 32px; border-radius: 50%; background: #fff; padding: 2px; object-fit: contain; 
+    }
+    .ticker-name { font-weight: 600; display: block; }
+    .company-name { font-size: 12px; color: var(--text-muted); }
+    
+    .numeric { font-family: 'Inter', monospace; }
+    .weight-bar-bg { width: 100px; height: 4px; background: var(--bg-hover); border-radius: 2px; margin-top: 6px; }
+    .weight-bar-fill { height: 100%; background: var(--accent-gold); border-radius: 2px; }
+
+    /* Footer */
+    footer{
+      padding: 40px 0; margin-top: auto; 
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+        nav { display: none; }
+        .dashboard-stats { grid-template-columns: 1fr; }
+        .table-container { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <header>
+      <a href="index.html" class="brand">
+        <img 
+          src="stargate capital logo.jpg" 
+          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIHN0cm9rZT0iIzI2MjYyNiIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSIjMEYwRjBGIi8+CiAgPHRleHQgeD0iNTAiIHk9IjY1IiBmb250LWZhbWlseT0ic2VyaWYiIGZvbnQtc2l6ZT0iNDAiIGZpbGw9IiNENEFGMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIiBzdHlsZT0ibGV0dGVyLXNwYWNpbmc6LTJweCI+U0M8L3RleHQ+CiAgPGVsbGlwc2UgY3g9IjUwIiBjeT0iNTAiIHJ4PSI0MiIgcnk9IjE1IiBzdHJva2U9IiNENEFGMzciIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgNTAgNTApIi8+Cjwvc3ZnPg==';"
+          alt="Stargate Capital Logo" 
+          class="logo-img" 
+        />
+        <div class="brand-text">Stargate Capital</div>
+      </a>
+      <nav>
+        <a href="index.html">Philosophy</a>
+        <a href="index.html#universe">Sectors</a>
+        <a href="index.html#market">Market</a>
+        <a href="research.html">Research</a>
+        <a href="holdings.html" class="active">Holdings</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#manager">Team</a>
+      </nav>
+    </header>
+
+    <div class="page-header">
+        <div>
+            <h1>Portfolio Holdings</h1>
+            <div class="subtitle"></div>
+        </div>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-label">Model AUM</div>
+            <div class="stat-value">₹10,00,000</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Active Positions</div>
+            <div class="stat-value" id="statPositions">--</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Cash Allocation</div>
+            <div class="stat-value" id="statCash">--%</div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="holdingsTable">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Sector</th>
+                    <th>Weight (%)</th>
+                    <th>Allocated Value (₹)</th>
+                    <th>Approx CMP (₹)</th>
+                    <th>Quantity (Shares)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Loading holdings.xlsx...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-weight: 600; color: var(--text-main);">Stargate Capital</div>
+        </div>
+        <div>© 2025 Stargate Capital. All rights reserved.</div>
+    </footer>
+
+  </div>
+
+  <script>
+    const TOTAL_AUM = 1000000; // 10 Lakhs Fixed
+
+    /* --- NEW EXCEL LOADING LOGIC --- */
+    async function loadHoldings() {
+        try {
+            // Fetch the Excel File
+            const response = await fetch('holdings.xlsx');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const arrayBuffer = await response.arrayBuffer();
+
+            // Parse with SheetJS
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            
+            // Get first sheet
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            
+            // Convert to JSON
+            const jsonData = XLSX.utils.sheet_to_json(worksheet);
+            
+            renderTable(jsonData);
+            
+        } catch (error) {
+            console.error("Error loading Excel file:", error);
+            document.querySelector('tbody').innerHTML = '<tr><td colspan="6" style="text-align:center; color: #D64545;">Error: Could not read holdings.xlsx. Ensure the file is saved in the folder.</td></tr>';
+        }
+    }
+
+    function renderTable(portfolio) {
+        const tableBody = document.querySelector('#holdingsTable tbody');
+        tableBody.innerHTML = ''; 
+
+        let totalWeightUsed = 0;
+        let positionCount = 0;
+
+        portfolio.forEach(stock => {
+            // Smart Header Detection (Handles Ticker vs ticker vs Symbol)
+            // It looks for the key regardless of capitalization if needed, but assumes proper Excel headers mostly.
+            const ticker = stock.Ticker || stock.ticker || "UNK";
+            const weightVal = stock.Weight || stock.weight;
+            const cmpVal = stock.CMP || stock.cmp || stock.Price;
+            const domain = stock.Domain || stock.domain || "example.com";
+            const name = stock.Name || stock.name || "Unknown Company";
+            const sector = stock.Sector || stock.sector || "General";
+
+            const weight = parseFloat(weightVal);
+            const cmp = parseFloat(cmpVal);
+            
+            if(!weight || !cmp) return; // Skip invalid rows
+
+            positionCount++;
+            totalWeightUsed += weight;
+
+            // Calculations
+            const allocatedValue = TOTAL_AUM * (weight / 100);
+            const quantity = Math.floor(allocatedValue / cmp);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <div class="company-cell">
+                        <img src="https://logo.clearbit.com/${domain}" class="company-logo" onerror="this.src='https://via.placeholder.com/32'">
+                        <div>
+                            <span class="ticker-name">${ticker}</span>
+                            <span class="company-name">${name}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>${sector}</td>
+                <td>
+                    <div class="numeric">${weight}%</div>
+                    <div class="weight-bar-bg"><div class="weight-bar-fill" style="width: ${weight}%"></div></div>
+                </td>
+                <td class="numeric" style="color: var(--accent-gold);">₹${allocatedValue.toLocaleString('en-IN')}</td>
+                <td class="numeric">₹${cmp.toLocaleString('en-IN')}</td>
+                <td class="numeric" style="font-weight: 700; color: var(--text-main);">${quantity}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Update Dashboard Stats
+        document.getElementById('statPositions').innerText = positionCount;
+        
+        const cash = 100 - totalWeightUsed;
+        document.getElementById('statCash').innerText = cash.toFixed(1) + "%";
+    }
+
+    // Load on page start
+    loadHoldings();
+  </script>
+</body>
+</html>
