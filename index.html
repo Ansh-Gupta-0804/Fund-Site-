@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  
   <style>
     :root{
       /* PREMIUM DARK PALETTE */
@@ -519,30 +521,59 @@ He is pursuing a B.Tech in Computer Science (Data Science) and preparing for the
       })
     })
 
-    /* --- AUM TICKER LOGIC --- */
-    const INR_AUM = 1000000; // 10 Lakh
+    /* --- AUM TICKER LOGIC (Fetching from Excel) --- */
     const EXCHANGE_RATE = 84.45; // Hardcoded approximation
     
-    function initTicker() {
+    // 1. Fetch & Calculate Total AUM from Excel
+    async function initTicker() {
+        try {
+            const response = await fetch('holdings.xlsx');
+            if (!response.ok) throw new Error("Excel not found");
+            
+            const arrayBuffer = await response.arrayBuffer();
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            const portfolio = XLSX.utils.sheet_to_json(worksheet);
+
+            let totalAUM = 0;
+
+            portfolio.forEach(row => {
+                const qty = parseFloat(row.Quantity || row.quantity);
+                const cmp = parseFloat(row.CMP || row.cmp || row.Price);
+                
+                // Logic: Sum of (Qty * Price) for all rows (Stocks + Cash row)
+                if(qty && cmp) {
+                    totalAUM += (qty * cmp);
+                }
+            });
+
+            // 2. Start Animation with calculated AUM
+            animateTicker(Math.floor(totalAUM));
+
+        } catch (err) {
+            console.error("Ticker Error:", err);
+            // Fallback if excel fails
+            animateTicker(1000000); 
+        }
+    }
+
+    function animateTicker(amount) {
         const container = document.getElementById('aumTicker');
         const usdDisplay = document.getElementById('usdValue');
         const rateDisplay = document.getElementById('exchangeRate');
         
-        // 1. Format INR string "10,00,000"
-        const formattedINR = INR_AUM.toLocaleString('en-IN');
+        container.innerHTML = '<span class="currency-symbol">₹</span>'; // Reset
+
+        const formattedINR = amount.toLocaleString('en-IN');
         
-        // 2. Create Rolling Digits
         formattedINR.split('').forEach(char => {
             if(char === ',') {
-                // Static comma
                 const span = document.createElement('span');
                 span.innerText = ',';
                 container.appendChild(span);
             } else {
-                // Rolling column
                 const col = document.createElement('div');
                 col.className = 'digit-col';
-                // Add numbers 0-9
                 for(let i=0; i<=9; i++) {
                     const num = document.createElement('span');
                     num.innerText = i;
@@ -550,7 +581,6 @@ He is pursuing a B.Tech in Computer Science (Data Science) and preparing for the
                 }
                 container.appendChild(col);
                 
-                // Animate to specific number
                 setTimeout(() => {
                     const targetIndex = parseInt(char);
                     col.style.transform = `translateY(-${targetIndex * 32}px)`;
@@ -558,8 +588,7 @@ He is pursuing a B.Tech in Computer Science (Data Science) and preparing for the
             }
         });
 
-        // 3. Calculate and Show USD
-        const usdVal = INR_AUM / EXCHANGE_RATE;
+        const usdVal = amount / EXCHANGE_RATE;
         const usdFormatted = new Intl.NumberFormat('en-US', { 
             style: 'currency', 
             currency: 'USD' 
@@ -569,7 +598,6 @@ He is pursuing a B.Tech in Computer Science (Data Science) and preparing for the
         rateDisplay.innerText = EXCHANGE_RATE.toFixed(2);
     }
 
-    // Initialize Ticker on Load
     window.addEventListener('DOMContentLoaded', initTicker);
 
 
